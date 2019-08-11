@@ -4,7 +4,7 @@ def repo_url = "https://github.com/ameyrk18/${repo}.git"
 
 pipeline {
 
-    stages {
+
         agent any
         stages {
             stage('Checkout') {
@@ -45,5 +45,5 @@ pipeline {
 
         }
 
-    }
 }
+
