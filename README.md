@@ -1,40 +1,62 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Simple role to demonstrate unit testing for 2 scenarios using molecule. This roles creates linux users and then create virtual hosts directories and assigns the ownership to the created directories.
+1. Allowed users can read/write in their directory
+2. Users cannot write in others directories
+
+This also contains Jenkins pipeline which can be used to create the job. The pipeline is available under `ci/pipeline.gdsl`
+
+The test case python code is available under `molecule/default/tests`
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should
-be mentioned here. For instance, if the role uses the EC2 module, it may be a
-good idea to mention in this section that the boto package is required.
+Python
+
+molecule
+
+ansible 
+
+docker
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including
-any variables that are in defaults/main.yml, vars/main.yml, and any variables
-that can/should be set via parameters to the role. Any variables that are read
-from other roles and/or the global scope (ie. hostvars, group vars, etc.) should
-be mentioned here as well.
+```---
+   # vars file for test-suit
+   v_hosts:
+     - dev1:
+         website: mango.com
+         port: 8081
+     - dev2:
+         website: apple.com
+         port: 8082
+     - dev3:
+         website: papaya.com
+         port: 8083
+     - dev4:
+         website: grapes.com
+         port: 8084
+   
+   main_document_root: /var/www/
+   html_directory: public_html
+   ```
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in
-regards to parameters that may need to be set for other roles, or variables that
-are used from other roles.
+N/A 
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables
-passed in as parameters) is always nice for users too:
+```bash
+molecule destroy
+molecule converge
+molecule verify
 
-    - hosts: servers
-      roles:
-         - { role: test-suit, x: 42 }
+```
 
 License
 -------
@@ -44,5 +66,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a
-website (HTML is not allowed).
+Aspiring fisherman
