@@ -1,45 +1,49 @@
 // Change these variables as per your needs, cane be further fined tuned as per the project needs
-def repo = "httpd-dev-server"
+def repo = "ansible-test-suit"
 def repo_url = "https://github.com/ameyrk18/${repo}.git"
 
 pipeline {
 
     stages {
-
-        stage('Checkout') {
-            steps {
-                // change credentials ID as per your needs
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'git-hub', url: repo_url]]])
+        agent any
+        stages {
+            stage('Checkout') {
+                steps {
+                    // change credentials ID as per your needs
+                    checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'git-hub', url: repo_url]]])
+                }
             }
-        }
 
-        stage ('Install dependencies ') {
-            steps {
-                sh '''
+            stage('Install dependencies ') {
+                steps {
+                    sh '''
           pip install --upgrade ansible molecule docker
         '''
+                }
             }
-        }
 
-        stage ('Display versions') {
-            steps {
-                sh '''
+            stage('Display versions') {
+                steps {
+                    sh '''
           docker -v
           python -V
           ansible --version
           molecule --version
         '''
+                }
             }
-        }
 
-        stage ('Molecule test') {
-            steps {
-                sh '''
+            stage('Molecule test') {
+                steps {
+                    sh '''
+          molecule destroy
           molecule converge
+          molecule verify
         '''
+                }
             }
+
         }
 
     }
-
 }
