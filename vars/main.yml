@@ -1,0 +1,18 @@
+---
+# vars file for test-suit
+v_hosts:
+  - dev11:
+      website: mango.com
+      port: 8081
+  - dev21:
+      website: apple.com
+      port: 8082
+  - dev31:
+      website: papaya.com
+      port: 8083
+  - dev41:
+      website: grapes.com
+      port: 8084
+
+main_document_root: /var/www/
+html_directory: public_html

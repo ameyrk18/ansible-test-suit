@@ -1,0 +1,22 @@
+---
+# tasks file for test-suit
+- name: Adding user "{{ item.key }}"
+  user: name="{{ item.key }}"
+    shell=/bin/bash
+    password=${password}
+    groups=wheel
+    append=yes
+  with_dict: "{{ v_hosts }}"
+
+- name: check if users exist, or else this fails
+  getent: database=passwd key="{{ item.key }}"
+  with_dict: "{{ v_hosts }}"
+
+- name: create document root for public htmls
+  file:
+    path: "{{ main_document_root }}{{ item.value.website }}/{{ html_directory }}"
+    state: directory
+    owner: "{{ item.key }}"
+    group: "{{ item.key }}"
+    mode: 0755
+  with_dict: "{{ v_hosts }}"
